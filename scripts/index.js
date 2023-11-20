@@ -23,12 +23,31 @@ const closeZoomPopup = document.querySelector(".button-close_type_zoom");
 
 function openPopup(popup) {
   popup.classList.add("popup_is-opened");
+  document.addEventListener("keydown", closeByEsc);
+  popup.addEventListener("click", closeByOverlayClick);
 }
 
 function closePopup(popup) {
   popup.classList.remove("popup_is-opened");
+  document.removeEventListener("keydown", closeByEsc);
+  popup.removeEventListener("click", closeByOverlayClick);
 }
 
+
+function closeByEsc(evt) {
+    if (evt.key === "Escape") {
+      const popup = document.querySelector(".popup_is-opened");
+      closePopup(popup);
+    }
+  }
+
+
+  function closeByOverlayClick(evt) {
+    if (evt.target === evt.currentTarget) {
+      closePopup(evt.currentTarget);
+    }
+  }
+  
 //слушатели
 openEditPopup.addEventListener("click", () => {
   openPopup(popupEditProfile);
