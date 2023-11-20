@@ -19,8 +19,7 @@ const closeEditPopup = document.querySelector(".button-close_type_edit");
 const closeAddPopup = document.querySelector(".button-close_type_add");
 const closeZoomPopup = document.querySelector(".button-close_type_zoom");
 
-
-//переменные для редактирования профиля 
+//переменные для редактирования профиля
 const editFormElement = document.forms.editProfile;
 const nameInput = editFormElement.elements.name;
 const jobInput = editFormElement.elements.info;
@@ -46,37 +45,36 @@ function closePopup(popup) {
 }
 
 function closeByEsc(evt) {
-    if (evt.key === "Escape") {
-      const popup = document.querySelector(".popup_is-opened");
-      closePopup(popup);
-    }
+  if (evt.key === "Escape") {
+    const popup = document.querySelector(".popup_is-opened");
+    closePopup(popup);
   }
+}
 
-  function closeByOverlayClick(evt) {
-    if (evt.target === evt.currentTarget) {
-      closePopup(evt.currentTarget);
-    }
+function closeByOverlayClick(evt) {
+  if (evt.target === evt.currentTarget) {
+    closePopup(evt.currentTarget);
   }
-  
+}
+
 //функции для попапа редактирования профиля
 function handleFormSubmit(evt) {
-    evt.preventDefault();
-    const name = nameInput.value;
-    const job = jobInput.value;
-    profileName.textContent = name;
-    userInfo.textContent = job;
-    closePopup(popupEditProfile);
-  }
+  evt.preventDefault();
+  const name = nameInput.value;
+  const job = jobInput.value;
+  profileName.textContent = name;
+  userInfo.textContent = job;
+  closePopup(popupEditProfile);
+}
 
-  function addMyCard(evt) {
-    evt.preventDefault();
-    const name = placeInput.value;
-    const link = linkInput.value;
-    closePopup(popupAddCard);
-    renderCards({ name: name, link: link });
-    evt.target.reset();
-  }
-
+function addMyCard(evt) {
+  evt.preventDefault();
+  const name = placeInput.value;
+  const link = linkInput.value;
+  closePopup(popupAddCard);
+  renderCards({ name: name, link: link });
+  evt.target.reset();
+}
 
 //слушатели
 openEditPopup.addEventListener("click", () => {
@@ -88,21 +86,20 @@ openAddPopup.addEventListener("click", () => {
 });
 
 closeEditPopup.addEventListener("click", () => {
-    closePopup(popupEditProfile);
-  });
+  closePopup(popupEditProfile);
+});
 
 closeAddPopup.addEventListener("click", () => {
-    closePopup(popupAddCard);
-  });
+  closePopup(popupAddCard);
+});
 
-//closeZoomPopup.addEventListener("click", () => {
-    //closePopup(popupZoomImage);
-  //});
+closeZoomPopup.addEventListener("click", () => {
+  closePopup(popupZoomImage);
+});
 
-  editFormElement.addEventListener("submit", handleFormSubmit);
+editFormElement.addEventListener("submit", handleFormSubmit);
 
-  addFormElement.addEventListener("submit", addMyCard);
-
+addFormElement.addEventListener("submit", addMyCard);
 
 const initialCards = [
   {
@@ -131,7 +128,7 @@ const initialCards = [
   },
 ];
 
-function createCard(item, handleDeleteCard, handleCardLike) {
+function createCard(item, handleDeleteCard, handleCardLike, evt) {
   const cardTemplate = document.querySelector("#card-template").content;
   const card = cardTemplate.querySelector(".card").cloneNode(true);
   const cardImage = card.querySelector(".card__image");
@@ -151,6 +148,8 @@ function createCard(item, handleDeleteCard, handleCardLike) {
     handleCardLike(likeCardButton, "card__like-button_is-active");
   });
 
+  cardImage.addEventListener("click", handleZoomImage);
+
   return card;
 }
 
@@ -160,16 +159,25 @@ function handleDeleteCard(button, selector) {
 }
 
 function handleCardLike(button, selector) {
-    button.classList.toggle(selector);
+  button.classList.toggle(selector);
 }
 
 function renderCards(item) {
-  const newCard = createCard(item, handleDeleteCard, handleCardLike);
+  const newCard = createCard(item, handleDeleteCard, handleCardLike, handleZoomImage);
   const cardContainer = document.querySelector(".places__list");
   cardContainer.prepend(newCard);
 }
 
-
+function handleZoomImage(evt) {
+  openPopup(popupZoomImage);
+  const imageZoomed = popupZoomImage.querySelector(".popup__image");
+  const imageCaption = popupZoomImage.querySelector(".popup__caption");
+  const img = evt.target;
+  imageZoomed.src = img.src;
+  imageZoomed.alt = img.alt;
+  imageCaption.textContent = imageZoomed.alt;
+  
+}
 
 initialCards.forEach((item) => {
   renderCards(item);
