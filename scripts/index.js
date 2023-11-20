@@ -15,21 +15,24 @@ const popupZoomImage = document.querySelector(".popup_type_image");
 //переменные кнопок
 const openEditPopup = document.querySelector(".profile__edit-button");
 const openAddPopup = document.querySelector(".profile__add-button");
-
 const closeEditPopup = document.querySelector(".button-close_type_edit");
 const closeAddPopup = document.querySelector(".button-close_type_add");
 const closeZoomPopup = document.querySelector(".button-close_type_zoom");
 
 
 //переменные для редактирования профиля 
-const editForm = document.forms.editProfile;
-const nameInput = editForm.elements.name;
-const jobInput = editForm.elements.info;
+const editFormElement = document.forms.editProfile;
+const nameInput = editFormElement.elements.name;
+const jobInput = editFormElement.elements.info;
 const profileName = document.querySelector(".profile__nickname");
 const userInfo = document.querySelector(".profile__user-information");
+
+//переменные для попапа добавления карточек
+const addFormElement = document.forms.newCard;
+const placeInput = addFormElement.elements.cardTitle;
+const linkInput = addFormElement.elements.link;
+
 //Функции попапов
-
-
 function openPopup(popup) {
   popup.classList.add("popup_is-opened");
   document.addEventListener("keydown", closeByEsc);
@@ -42,14 +45,12 @@ function closePopup(popup) {
   popup.removeEventListener("click", closeByOverlayClick);
 }
 
-
 function closeByEsc(evt) {
     if (evt.key === "Escape") {
       const popup = document.querySelector(".popup_is-opened");
       closePopup(popup);
     }
   }
-
 
   function closeByOverlayClick(evt) {
     if (evt.target === evt.currentTarget) {
@@ -67,6 +68,14 @@ function handleFormSubmit(evt) {
     closePopup(popupEditProfile);
   }
 
+  function addMyCard(evt) {
+    evt.preventDefault();
+    const name = placeInput.value;
+    const link = linkInput.value;
+    closePopup(popupAddCard);
+    renderCards({ name: name, link: link });
+    evt.target.reset();
+  }
 
 
 //слушатели
@@ -90,7 +99,11 @@ closeAddPopup.addEventListener("click", () => {
     //closePopup(popupZoomImage);
   //});
 
-editForm.addEventListener("submit", handleFormSubmit);
+  editFormElement.addEventListener("submit", handleFormSubmit);
+
+  addFormElement.addEventListener("submit", addMyCard);
+
+
 const initialCards = [
   {
     name: "Архыз",
@@ -144,7 +157,7 @@ function deleteCard(button, selector) {
 function renderCards(item) {
   const newCard = createCard(item, deleteCard);
   const cardContainer = document.querySelector(".places__list");
-  cardContainer.append(newCard);
+  cardContainer.prepend(newCard);
 }
 
 initialCards.forEach((item) => {
