@@ -19,7 +19,16 @@ const openAddPopup = document.querySelector(".profile__add-button");
 const closeEditPopup = document.querySelector(".button-close_type_edit");
 const closeAddPopup = document.querySelector(".button-close_type_add");
 const closeZoomPopup = document.querySelector(".button-close_type_zoom");
+
+
+//переменные для редактирования профиля 
+const editForm = document.forms.editProfile;
+const nameInput = editForm.elements.name;
+const jobInput = editForm.elements.info;
+const profileName = document.querySelector(".profile__nickname");
+const userInfo = document.querySelector(".profile__user-information");
 //Функции попапов
+
 
 function openPopup(popup) {
   popup.classList.add("popup_is-opened");
@@ -48,6 +57,18 @@ function closeByEsc(evt) {
     }
   }
   
+//функции для попапа редактирования профиля
+function handleFormSubmit(evt) {
+    evt.preventDefault();
+    const name = nameInput.value;
+    const job = jobInput.value;
+    profileName.textContent = name;
+    userInfo.textContent = job;
+    closePopup(popupEditProfile);
+  }
+
+
+
 //слушатели
 openEditPopup.addEventListener("click", () => {
   openPopup(popupEditProfile);
@@ -65,11 +86,11 @@ closeAddPopup.addEventListener("click", () => {
     closePopup(popupAddCard);
   });
 
-closeZoomPopup.addEventListener("click", () => {
-    closePopup(popupZoomImage);
-  });
+//closeZoomPopup.addEventListener("click", () => {
+    //closePopup(popupZoomImage);
+  //});
 
-
+editForm.addEventListener("submit", handleFormSubmit);
 const initialCards = [
   {
     name: "Архыз",
