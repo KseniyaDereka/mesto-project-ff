@@ -9,15 +9,18 @@
 @import url('./__image/popup__image.css');
 
 .popup {
-  font-family: 'Inter', Arial, sans-serif;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, .5);
+  font-family: Inter, Arial, sans-serif;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
   position: fixed;
+  justify-content: center;
+  align-items: center;
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 10;
+  transition: 0.5s visibility, opacity 0.5s;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
 }
+
