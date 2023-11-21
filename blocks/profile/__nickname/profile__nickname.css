@@ -1,4 +1,4 @@
-.profile__title {
+.profile__nickname {
   font-size: 42px;
   line-height: 48px;
   font-weight: 500;
@@ -10,21 +10,21 @@
 }
 
 @media screen and (max-width: 740px) {
-  .profile__title {
+  .profile__nickname {
     font-size: 32px;
     line-height: 38px;
   }
 }
 
 @media screen and (max-width: 568px) {
-  .profile__title {
+  .profile__nickname {
     font-size: 27px;
     line-height: 33px;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .profile__title {
+  .profile__nickname {
     min-width: 201px;
   }
 }
