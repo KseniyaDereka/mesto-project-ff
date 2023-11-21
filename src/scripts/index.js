@@ -1,3 +1,4 @@
+import "../pages/index.css";
 import { initialCards } from "../components/cardMassive.js";
 import {
   createCard,
