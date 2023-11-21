@@ -1,12 +1,11 @@
-import { initialCards } from "./cardMassive.js" // @todo: Темплейт карточки
+import { initialCards } from "../components/cardMassive.js";
+import {
+  createCard,
+  handleDeleteCard,
+  handleCardLike
+} from "../components/card.js";
+import { openPopup, closePopup } from "../components/modal.js";
 
-// @todo: DOM узлы
-
-// @todo: Функция создания карточки
-
-// @todo: Функция удаления карточки
-
-// @todo: Вывести карточки на страницу
 //переменные попапов
 const popupEditProfile = document.querySelector(".popup_type_edit");
 const popupAddCard = document.querySelector(".popup_type_new-card");
@@ -19,43 +18,18 @@ const closeEditPopup = document.querySelector(".button-close_type_edit");
 const closeAddPopup = document.querySelector(".button-close_type_add");
 const closeZoomPopup = document.querySelector(".button-close_type_zoom");
 
-//переменные для редактирования профиля
+//переменные для формы редактирования профиля
 const editFormElement = document.forms.editProfile;
 const nameInput = editFormElement.elements.name;
 const jobInput = editFormElement.elements.info;
+//переменные для редактирования профиля
 const profileName = document.querySelector(".profile__nickname");
 const userInfo = document.querySelector(".profile__user-information");
 
-//переменные для попапа добавления карточек
+//переменные для формы попапа добавления карточек
 const addFormElement = document.forms.newCard;
 const placeInput = addFormElement.elements.cardTitle;
 const linkInput = addFormElement.elements.link;
-
-//Функции попапов
-function openPopup(popup) {
-  popup.classList.add("popup_is-opened");
-  document.addEventListener("keydown", closeByEsc);
-  popup.addEventListener("click", closeByOverlayClick);
-}
-
-function closePopup(popup) {
-  popup.classList.remove("popup_is-opened");
-  document.removeEventListener("keydown", closeByEsc);
-  popup.removeEventListener("click", closeByOverlayClick);
-}
-
-function closeByEsc(evt) {
-  if (evt.key === "Escape") {
-    const popup = document.querySelector(".popup_is-opened");
-    closePopup(popup);
-  }
-}
-
-function closeByOverlayClick(evt) {
-  if (evt.target === evt.currentTarget) {
-    closePopup(evt.currentTarget);
-  }
-}
 
 //функции для попапа редактирования профиля
 function handleFormSubmit(evt) {
@@ -67,6 +41,24 @@ function handleFormSubmit(evt) {
   closePopup(popupEditProfile);
 }
 
+//функция рендера карточки на страницу
+function renderCards(item) {
+  const newCard = createCard(
+    item,
+    handleDeleteCard,
+    handleCardLike,
+    handleZoomImage
+  );
+  const cardContainer = document.querySelector(".places__list");
+  cardContainer.prepend(newCard);
+}
+
+//рендерим массив на страницу
+initialCards.forEach((item) => {
+  renderCards(item);
+});
+
+//добавляем свою карточку
 function addMyCard(evt) {
   evt.preventDefault();
   const name = placeInput.value;
@@ -76,71 +68,7 @@ function addMyCard(evt) {
   evt.target.reset();
 }
 
-//слушатели
-openEditPopup.addEventListener("click", () => {
-  openPopup(popupEditProfile);
-});
-
-openAddPopup.addEventListener("click", () => {
-  openPopup(popupAddCard);
-});
-
-closeEditPopup.addEventListener("click", () => {
-  closePopup(popupEditProfile);
-});
-
-closeAddPopup.addEventListener("click", () => {
-  closePopup(popupAddCard);
-});
-
-closeZoomPopup.addEventListener("click", () => {
-  closePopup(popupZoomImage);
-});
-
-editFormElement.addEventListener("submit", handleFormSubmit);
-
-addFormElement.addEventListener("submit", addMyCard);
-
-function createCard(item, handleDeleteCard, handleCardLike, evt) {
-  const cardTemplate = document.querySelector("#card-template").content;
-  const card = cardTemplate.querySelector(".card").cloneNode(true);
-  const cardImage = card.querySelector(".card__image");
-  const cardTitle = card.querySelector(".card__title");
-  const deleteCardButton = card.querySelector(".card__delete-button");
-  const likeCardButton = card.querySelector(".card__like-button");
-
-  cardImage.src = item.link;
-  cardImage.alt = item.name;
-  cardTitle.textContent = item.name;
-
-  deleteCardButton.addEventListener("click", () => {
-    handleDeleteCard(deleteCardButton, ".card");
-  });
-
-  likeCardButton.addEventListener("click", () => {
-    handleCardLike(likeCardButton, "card__like-button_is-active");
-  });
-
-  cardImage.addEventListener("click", handleZoomImage);
-
-  return card;
-}
-
-function handleDeleteCard(button, selector) {
-  const cardParent = button.closest(selector);
-  cardParent.remove();
-}
-
-function handleCardLike(button, selector) {
-  button.classList.toggle(selector);
-}
-
-function renderCards(item) {
-  const newCard = createCard(item, handleDeleteCard, handleCardLike, handleZoomImage);
-  const cardContainer = document.querySelector(".places__list");
-  cardContainer.prepend(newCard);
-}
-
+//функция увеличения изображения по клику
 function handleZoomImage(evt) {
   openPopup(popupZoomImage);
   const imageZoomed = popupZoomImage.querySelector(".popup__image");
@@ -149,9 +77,31 @@ function handleZoomImage(evt) {
   imageZoomed.src = img.src;
   imageZoomed.alt = img.alt;
   imageCaption.textContent = imageZoomed.alt;
-  
 }
 
-initialCards.forEach((item) => {
-  renderCards(item);
+//слушатели для попапа редактирования
+openEditPopup.addEventListener("click", () => {
+  openPopup(popupEditProfile);
+});
+
+closeEditPopup.addEventListener("click", () => {
+  closePopup(popupEditProfile);
+});
+
+editFormElement.addEventListener("submit", handleFormSubmit);
+
+//слушатели для попапа карточки
+openAddPopup.addEventListener("click", () => {
+  openPopup(popupAddCard);
+});
+
+closeAddPopup.addEventListener("click", () => {
+  closePopup(popupAddCard);
+});
+
+addFormElement.addEventListener("submit", addMyCard);
+
+//слушатели для попапа изображения
+closeZoomPopup.addEventListener("click", () => {
+  closePopup(popupZoomImage);
 });
