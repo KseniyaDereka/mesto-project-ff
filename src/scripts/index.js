@@ -13,11 +13,11 @@ const popupAddCard = document.querySelector(".popup_type_new-card");
 const popupZoomImage = document.querySelector(".popup_type_image");
 
 //переменные кнопок
-const openEditPopup = document.querySelector(".profile__edit-button");
-const openAddPopup = document.querySelector(".profile__add-button");
-const closeEditPopup = document.querySelector(".button-close_type_edit");
-const closeAddPopup = document.querySelector(".button-close_type_add");
-const closeZoomPopup = document.querySelector(".button-close_type_zoom");
+const editPopupOpenButton = document.querySelector(".profile__edit-button");
+const addPopupOpenButton = document.querySelector(".profile__add-button");
+const editPopupCloseButton = document.querySelector(".button-close_type_edit");
+const addPopupCloseButton = document.querySelector(".button-close_type_add");
+const zoomPopupCloseButton = document.querySelector(".button-close_type_zoom");
 
 //переменные для формы редактирования профиля
 const editFormElement = document.forms.editProfile;
@@ -32,8 +32,11 @@ const addFormElement = document.forms.newCard;
 const placeInput = addFormElement.elements.cardTitle;
 const linkInput = addFormElement.elements.link;
 
+//переменные для попапа добавления карточек
+const cardContainer = document.querySelector(".places__list");
+
 //функции для попапа редактирования профиля
-function handleFormSubmit(evt) {
+function handleEditFormSubmit(evt) {
   evt.preventDefault();
   const name = nameInput.value;
   const job = jobInput.value;
@@ -43,20 +46,19 @@ function handleFormSubmit(evt) {
 }
 
 //функция рендера карточки на страницу
-function renderCards(item) {
+function renderCard(item) {
   const newCard = createCard(
     item,
     handleDeleteCard,
     handleCardLike,
     handleZoomImage
   );
-  const cardContainer = document.querySelector(".places__list");
   cardContainer.prepend(newCard);
 }
 
 //рендерим массив на страницу
 initialCards.forEach((item) => {
-  renderCards(item);
+  renderCard(item);
 });
 
 //добавляем свою карточку
@@ -65,7 +67,7 @@ function addMyCard(evt) {
   const name = placeInput.value;
   const link = linkInput.value;
   closePopup(popupAddCard);
-  renderCards({ name: name, link: link });
+  renderCard({ name: name, link: link });
   evt.target.reset();
 }
 
@@ -81,28 +83,33 @@ function handleZoomImage(evt) {
 }
 
 //слушатели для попапа редактирования
-openEditPopup.addEventListener("click", () => {
+editPopupOpenButton.addEventListener("click", () => {
   openPopup(popupEditProfile);
+  const name = profileName.textContent;
+  const job = userInfo.textContent;
+  nameInput.value = name;
+  jobInput.value = job;
+
 });
 
-closeEditPopup.addEventListener("click", () => {
+editPopupCloseButton.addEventListener("click", () => {
   closePopup(popupEditProfile);
 });
 
-editFormElement.addEventListener("submit", handleFormSubmit);
+editFormElement.addEventListener("submit", handleEditFormSubmit);
 
 //слушатели для попапа карточки
-openAddPopup.addEventListener("click", () => {
+addPopupOpenButton.addEventListener("click", () => {
   openPopup(popupAddCard);
 });
 
-closeAddPopup.addEventListener("click", () => {
+addPopupCloseButton.addEventListener("click", () => {
   closePopup(popupAddCard);
 });
 
 addFormElement.addEventListener("submit", addMyCard);
 
 //слушатели для попапа изображения
-closeZoomPopup.addEventListener("click", () => {
+zoomPopupCloseButton.addEventListener("click", () => {
   closePopup(popupZoomImage);
 });

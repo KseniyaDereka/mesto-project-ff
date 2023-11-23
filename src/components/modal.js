@@ -2,14 +2,14 @@
 function openPopup(popup) {
   popup.classList.add("popup_is-opened");
   document.addEventListener("keydown", closeByEsc);
-  popup.addEventListener("click", closeByOverlayClick);
+  popup.addEventListener("mousedown", closeByOverlayClick);
 }
 
 //закрыть модальное окно
 function closePopup(popup) {
   popup.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closeByEsc);
-  popup.removeEventListener("click", closeByOverlayClick);
+  popup.removeEventListener("mousedown", closeByOverlayClick);
 }
 
 //закрыть модальное окно нажатием на ESC
