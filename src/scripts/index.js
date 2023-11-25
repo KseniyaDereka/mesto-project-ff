@@ -13,24 +13,24 @@ const popupAddCard = document.querySelector(".popup_type_new-card");
 const popupZoomImage = document.querySelector(".popup_type_image");
 
 //переменные кнопок
-const editPopupOpenButton = document.querySelector(".profile__edit-button");
-const addPopupOpenButton = document.querySelector(".profile__add-button");
-const editPopupCloseButton = document.querySelector(".button-close_type_edit");
-const addPopupCloseButton = document.querySelector(".button-close_type_add");
-const zoomPopupCloseButton = document.querySelector(".button-close_type_zoom");
+const popupProfileOpenButton = document.querySelector(".profile__edit-button");
+const popupAddCardOpenButton = document.querySelector(".profile__add-button");
+const popupProfileCloseButton = document.querySelector(".button-close_type_edit");
+const popupAddCardCloseButton = document.querySelector(".button-close_type_add");
+const popupZoomCloseButton = document.querySelector(".button-close_type_zoom");
 
 //переменные для формы редактирования профиля
-const editFormElement = document.forms.editProfile;
-const nameInput = editFormElement.elements.name;
-const jobInput = editFormElement.elements.info;
+const formEditElement = document.forms.editProfile;
+const nameInput = formEditElement.elements.name;
+const jobInput = formEditElement.elements.info;
 //переменные для редактирования профиля
 const profileName = document.querySelector(".profile__nickname");
 const userInfo = document.querySelector(".profile__user-information");
 
 //переменные для формы попапа добавления карточек
-const addFormElement = document.forms.newCard;
-const placeInput = addFormElement.elements.cardTitle;
-const linkInput = addFormElement.elements.link;
+const formAddCardElement = document.forms.newCard;
+const placeInput = formAddCardElement.elements.cardTitle;
+const linkInput = formAddCardElement.elements.link;
 
 //переменные для попапа добавления карточек
 const cardContainer = document.querySelector(".places__list");
@@ -83,7 +83,7 @@ function handleZoomImage(evt) {
 }
 
 //слушатели для попапа редактирования
-editPopupOpenButton.addEventListener("click", () => {
+popupProfileOpenButton.addEventListener("click", () => {
   openPopup(popupEditProfile);
   const name = profileName.textContent;
   const job = userInfo.textContent;
@@ -92,24 +92,24 @@ editPopupOpenButton.addEventListener("click", () => {
 
 });
 
-editPopupCloseButton.addEventListener("click", () => {
+popupProfileCloseButton.addEventListener("click", () => {
   closePopup(popupEditProfile);
 });
 
-editFormElement.addEventListener("submit", handleEditFormSubmit);
+formEditElement.addEventListener("submit", handleEditFormSubmit);
 
 //слушатели для попапа карточки
-addPopupOpenButton.addEventListener("click", () => {
+popupAddCardOpenButton.addEventListener("click", () => {
   openPopup(popupAddCard);
 });
 
-addPopupCloseButton.addEventListener("click", () => {
+popupAddCardCloseButton.addEventListener("click", () => {
   closePopup(popupAddCard);
 });
 
-addFormElement.addEventListener("submit", addMyCard);
+formAddCardElement.addEventListener("submit", addMyCard);
 
 //слушатели для попапа изображения
-zoomPopupCloseButton.addEventListener("click", () => {
+popupZoomCloseButton.addEventListener("click", () => {
   closePopup(popupZoomImage);
 });
