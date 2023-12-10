@@ -42,9 +42,11 @@
     <div class="popup__content">
       <button type="button" class="popup__close button-close_type_edit"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
-      <form class="popup__form" name="editProfile">
-        <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required>
-        <input type="text" name="info" class="popup__input popup__input_type_description" placeholder="Занятие" required>
+      <form class="popup__form" name="editProfile" novalidate>
+        <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" pattern="[а-яА-ЯёЁa-zA-Z\-\s]+" minlength="2" maxlength="40" required>
+        <span id="name-error" class="error"></span>
+        <input type="text" name="info" class="popup__input popup__input_type_description" placeholder="Занятие" pattern="[а-яА-ЯёЁa-zA-Z\-\s]+" minlength="2" maxlength="200" required>
+        <span id="info-error" class="error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
@@ -53,9 +55,11 @@
     <div class="popup__content">
       <button type="button" class="popup__close button-close_type_add"></button>
       <h3 class="popup__title">Новое место</h3>
-      <form class="popup__form" name="newCard">
+      <form class="popup__form" name="newCard" novalidate>
         <input type="text" name="cardTitle" class="popup__input popup__input_type_card-name" placeholder="Название" required>
+        <span id="place-error" class="error"></span>
         <input type="url" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
+        <span id="link-error" class="error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
@@ -68,7 +72,7 @@
     </div>
   </div>
 </div>
-<script type="module" src="./scripts/index.js" defer></script>
+<script type="module" src="./scripts/index.js"></script>
 
 <template id="card-template">
   <li class="places__item card">

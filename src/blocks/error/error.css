@@ -1,0 +1,10 @@
+.error {
+    color: rgba(255, 0, 0, 1);
+    font-size: 12px;
+    line-height: 14.52px;
+    font-family: "Inter";
+    font-weight: 400;
+    height: 30px;
+    margin-top: 4px;
+    margin-bottom: 6px;
+  }

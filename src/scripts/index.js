@@ -6,6 +6,8 @@ import {
   handleCardLike
 } from "../components/card.js";
 import { openPopup, closePopup } from "../components/modal.js";
+import { configForm, enableValidation } from "../components/validation";
+
 
 //переменные попапов
 const popupEditProfile = document.querySelector(".popup_type_edit");
@@ -113,3 +115,5 @@ formAddCardElement.addEventListener("submit", addMyCard);
 popupZoomCloseButton.addEventListener("click", () => {
   closePopup(popupZoomImage);
 });
+
+enableValidation(configForm);
