@@ -40,3 +40,31 @@ export const getCards = () => {
     }).then(checkError)
     .then(handleResponse)
   }
+
+//редактирование информации пользователя
+ export const editUserInformation = ({name, job}) => { //отредактировать информацию // в name и about попали мои отредактированные данные
+    return fetch(`${config.baseUrl}/users/me`, {
+      headers: config.headers,
+      method: "PATCH",
+      body: JSON.stringify({   //берет мой обьект  превращает в строку
+        name: name,  //сюда попадают мои отредактированные данные
+        about: job,
+      }),
+    })
+    .then(checkError)
+    .then(handleResponse)
+  }
+
+
+// export const addCard = ({name, link}) => {
+//     return fetch(`${config.baseUrl}/cards`, {
+//       headers: config.headers,
+//       method: "POST",
+//       body: JSON.stringify({
+//         name: name,
+//         link: link,
+//       }),
+//     })
+//     .then(checkError)
+//     .then(handleResponse);
+//   }

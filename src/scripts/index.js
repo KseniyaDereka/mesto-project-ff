@@ -6,7 +6,7 @@ import {
 } from "../components/card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import { configForm, enableValidation, clearValidation, toggleButton } from "../components/validation";
-import { getUserInformation, getCards } from "../components/api";
+import { getUserInformation, getCards, editUserInformation } from "../components/api";
 
 
 //переменные попапов
@@ -44,6 +44,12 @@ function handleEditFormSubmit(evt) {
   const job = jobInput.value;
   profileName.textContent = name;
   userInfo.textContent = job;
+  editUserInformation( {name, job} )//вызываю метод/отдаю на сервер данные
+.then((data) => {
+})
+.catch((error) => {
+  console.log(error); // выведем ошибку в консоль
+});
   closePopup(popupEditProfile);
 }
 
@@ -157,6 +163,11 @@ Promise.all (pageData)
   profileName.textContent = userInformation.name;
   userInfo.textContent = userInformation.about;
 })
-.catch((err) => {
+.catch((error) => {
   console.log(error); // выведем ошибку в консоль
 });
+// const name = nameInput.value;
+// const about = jobInput.value;
+// console.log(jobInput.value)
+
+
