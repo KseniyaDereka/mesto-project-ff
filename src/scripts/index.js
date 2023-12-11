@@ -1,5 +1,4 @@
 import "../pages/index.css";
-import { initialCards } from "../components/cardMassive.js";
 import {
   createCard,
   handleDeleteCard,
@@ -7,6 +6,7 @@ import {
 } from "../components/card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import { configForm, enableValidation, clearValidation, toggleButton } from "../components/validation";
+import { getUserInformation, getCards } from "../components/api";
 
 
 //переменные попапов
@@ -59,9 +59,9 @@ function renderCard(item) {
 }
 
 //рендерим массив на страницу
-initialCards.forEach((item) => {
-  renderCard(item);
-});
+// initialCards.forEach((item) => {
+//   renderCard(item);
+// });
 
 //добавляем свою карточку
 function addMyCard(evt) {
@@ -87,14 +87,17 @@ function handleZoomImage(evt) {
   imageCaption.textContent = imageZoomed.alt;
 }
 
-//слушатели для попапа редактирования
-popupProfileOpenButton.addEventListener("click", () => {
-  openPopup(popupEditProfile);
-  clearValidation(formEditElement, configForm);
+function setUserInfo() {
   const name = profileName.textContent;
   const job = userInfo.textContent;
   nameInput.value = name;
   jobInput.value = job;
+}
+//слушатели для попапа редактирования
+popupProfileOpenButton.addEventListener("click", () => {
+  openPopup(popupEditProfile);
+  clearValidation(formEditElement, configForm);
+  setUserInfo();
 
 });
 
@@ -122,3 +125,38 @@ popupZoomCloseButton.addEventListener("click", () => {
 });
 
 enableValidation(configForm);
+
+
+//получаем данные пользователя с сервера
+getUserInformation()
+  .then((userInformation) => {
+    console.log(userInformation);
+  })
+  .catch((error) => {
+    console.log("Ошибка запроса информации пользователя", error); // выведем ошибку в консоль
+  });
+
+//получаем карточки с сервера
+getCards()
+.then((cardMassive) => {
+  console.log(cardMassive);
+})
+.catch((error) => {
+  console.log("Ошибка запроса карточек пользователя", error); // выведем ошибку в консоль
+});
+
+const pageData = [getUserInformation(), getCards()];
+
+let ownerId;//мой айди 0fd2e9b846773c97126418ae
+Promise.all (pageData) 
+.then (([userInformation, cardMassive]) => {
+  ownerId = userInformation._id; //присваиваю значение
+  cardMassive.forEach((item) => {
+  renderCard(item);
+  }); //вывожу карты с сервера
+  profileName.textContent = userInformation.name;
+  userInfo.textContent = userInformation.about;
+})
+.catch((err) => {
+  console.log(error); // выведем ошибку в консоль
+});
