@@ -6,7 +6,7 @@ import {
   handleCardLike
 } from "../components/card.js";
 import { openPopup, closePopup } from "../components/modal.js";
-import { configForm, enableValidation } from "../components/validation";
+import { configForm, enableValidation, clearValidation } from "../components/validation";
 
 
 //переменные попапов
@@ -87,6 +87,7 @@ function handleZoomImage(evt) {
 //слушатели для попапа редактирования
 popupProfileOpenButton.addEventListener("click", () => {
   openPopup(popupEditProfile);
+  clearValidation(formEditElement, configForm);
   const name = profileName.textContent;
   const job = userInfo.textContent;
   nameInput.value = name;
