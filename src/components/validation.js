@@ -13,7 +13,7 @@ function showError(inputElement, errorElement, config) {
   errorElement.textContent = inputElement.validationMessage;
 }
 
-//если все заполнено верно - спрячь
+//спрячь ошибку
 function hideError(inputElement, errorElement, config) {
   inputElement.classList.remove(config.inputErrorClass);
   errorElement.textContent = "";
@@ -46,6 +46,7 @@ function buttonBlocked(buttonElement, config) {
   buttonElement.classList.add(config.buttonInactiveClass);
 }
 
+//блокировка кнопки
 export function toggleButton(buttonElement, isActive, config) {
   if (isActive) {
     buttonUnblocked(buttonElement, config);
@@ -81,6 +82,7 @@ export function enableValidation(config) {
   });
 }
 
+//очищаем поля ошибок
 export function clearValidation(formElement, config) {
   const errors = formElement.querySelectorAll(config.errorClass);
   errors.forEach((error) => {
