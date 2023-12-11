@@ -6,7 +6,7 @@ import {
   handleCardLike
 } from "../components/card.js";
 import { openPopup, closePopup } from "../components/modal.js";
-import { configForm, enableValidation, clearValidation } from "../components/validation";
+import { configForm, enableValidation, clearValidation, toggleButton } from "../components/validation";
 
 
 //переменные попапов
@@ -71,6 +71,9 @@ function addMyCard(evt) {
   closePopup(popupAddCard);
   renderCard({ name: name, link: link });
   evt.target.reset();
+  const submitButtonElement = document.querySelector(".popup__button-create");
+  toggleButton(submitButtonElement, false, configForm);
+  
 }
 
 //функция увеличения изображения по клику
@@ -104,6 +107,7 @@ formEditElement.addEventListener("submit", handleEditFormSubmit);
 //слушатели для попапа карточки
 popupAddCardOpenButton.addEventListener("click", () => {
   openPopup(popupAddCard);
+  clearValidation(formAddCardElement, configForm);
 });
 
 popupAddCardCloseButton.addEventListener("click", () => {

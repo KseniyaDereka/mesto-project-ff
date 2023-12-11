@@ -17,7 +17,6 @@ function showError(inputElement, errorElement, config) {
 function hideError(inputElement, errorElement, config) {
   inputElement.classList.remove(config.inputErrorClass);
   errorElement.textContent = "";
-  //;
 }
 
 //проверим валидность
@@ -47,7 +46,7 @@ function buttonBlocked(buttonElement, config) {
   buttonElement.classList.add(config.buttonInactiveClass);
 }
 
-function toggleButton(buttonElement, isActive, config) {
+export function toggleButton(buttonElement, isActive, config) {
   if (isActive) {
     buttonUnblocked(buttonElement, config);
   } else {
@@ -91,7 +90,4 @@ export function clearValidation(formElement, config) {
   inputList.forEach((inputElement) => {
     inputElement.classList.remove(config.inputErrorClass);
   });
-
-  //inputElement.classList.remove(config.errorClass);
-  //errorElement.textContent = '';
 }
