@@ -5,10 +5,12 @@ function createCard(item, handleDeleteCard, handleCardLike, handleZoomImage) {
   const cardTitle = card.querySelector(".card__title");
   const deleteCardButton = card.querySelector(".card__delete-button");
   const likeCardButton = card.querySelector(".card__like-button");
+  const likeCounter = card.querySelector(".card__like-counter");
 
   cardImage.src = item.link;
   cardImage.alt = item.name;
   cardTitle.textContent = item.name;
+  likeCounter.textContent = item.likes.length;
 
   deleteCardButton.addEventListener("click", () => {
     handleDeleteCard(deleteCardButton, ".card");
