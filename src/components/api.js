@@ -56,15 +56,15 @@ export const getCards = () => {
   }
 
 
-// export const addCard = ({name, link}) => {
-//     return fetch(`${config.baseUrl}/cards`, {
-//       headers: config.headers,
-//       method: "POST",
-//       body: JSON.stringify({
-//         name: name,
-//         link: link,
-//       }),
-//     })
-//     .then(checkError)
-//     .then(handleResponse);
-//   }
+export const addCard = ({name, link}) => {
+    return fetch(`${config.baseUrl}/cards`, {
+      headers: config.headers,
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        link: link,
+      }),
+    })
+    .then(checkError)
+    .then(handleResponse);
+  }

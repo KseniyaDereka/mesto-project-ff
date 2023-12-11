@@ -2,12 +2,21 @@ import "../pages/index.css";
 import {
   createCard,
   handleDeleteCard,
-  handleCardLike
+  handleCardLike,
 } from "../components/card.js";
 import { openPopup, closePopup } from "../components/modal.js";
-import { configForm, enableValidation, clearValidation, toggleButton } from "../components/validation";
-import { getUserInformation, getCards, editUserInformation } from "../components/api";
-
+import {
+  configForm,
+  enableValidation,
+  clearValidation,
+  toggleButton,
+} from "../components/validation";
+import {
+  getUserInformation,
+  getCards,
+  editUserInformation,
+  addCard,
+} from "../components/api";
 
 //переменные попапов
 const popupEditProfile = document.querySelector(".popup_type_edit");
@@ -17,8 +26,12 @@ const popupZoomImage = document.querySelector(".popup_type_image");
 //переменные кнопок
 const popupProfileOpenButton = document.querySelector(".profile__edit-button");
 const popupAddCardOpenButton = document.querySelector(".profile__add-button");
-const popupProfileCloseButton = document.querySelector(".button-close_type_edit");
-const popupAddCardCloseButton = document.querySelector(".button-close_type_add");
+const popupProfileCloseButton = document.querySelector(
+  ".button-close_type_edit"
+);
+const popupAddCardCloseButton = document.querySelector(
+  ".button-close_type_add"
+);
 const popupZoomCloseButton = document.querySelector(".button-close_type_zoom");
 
 //переменные для формы редактирования профиля
@@ -44,12 +57,11 @@ function handleEditFormSubmit(evt) {
   const job = jobInput.value;
   profileName.textContent = name;
   userInfo.textContent = job;
-  editUserInformation( {name, job} )//вызываю метод/отдаю на сервер данные
-.then((data) => {
-})
-.catch((error) => {
-  console.log(error); // выведем ошибку в консоль
-});
+  editUserInformation({ name, job }) //вызываю метод/отдаю на сервер данные
+    .then((data) => {})
+    .catch((error) => {
+      console.log(error); // выведем ошибку в консоль
+    });
   closePopup(popupEditProfile);
 }
 
@@ -61,25 +73,24 @@ function renderCard(item) {
     handleCardLike,
     handleZoomImage
   );
-  cardContainer.prepend(newCard);
+  cardContainer.append(newCard);
 }
-
-//рендерим массив на страницу
-// initialCards.forEach((item) => {
-//   renderCard(item);
-// });
 
 //добавляем свою карточку
 function addMyCard(evt) {
   evt.preventDefault();
   const name = placeInput.value;
   const link = linkInput.value;
-  closePopup(popupAddCard);
   renderCard({ name: name, link: link });
+  addCard(({name, link}))
+  .then((data) => {})
+  .catch((error) => {
+    console.log(error);
+  });
+  closePopup(popupAddCard);
   evt.target.reset();
   const submitButtonElement = document.querySelector(".popup__button-create");
   toggleButton(submitButtonElement, false, configForm);
-  
 }
 
 //функция увеличения изображения по клику
@@ -104,7 +115,6 @@ popupProfileOpenButton.addEventListener("click", () => {
   openPopup(popupEditProfile);
   clearValidation(formEditElement, configForm);
   setUserInfo();
-
 });
 
 popupProfileCloseButton.addEventListener("click", () => {
@@ -132,7 +142,6 @@ popupZoomCloseButton.addEventListener("click", () => {
 
 enableValidation(configForm);
 
-
 //получаем данные пользователя с сервера
 getUserInformation()
   .then((userInformation) => {
@@ -144,30 +153,28 @@ getUserInformation()
 
 //получаем карточки с сервера
 getCards()
-.then((cardMassive) => {
-  console.log(cardMassive);
-})
-.catch((error) => {
-  console.log("Ошибка запроса карточек пользователя", error); // выведем ошибку в консоль
-});
+  .then((cardMassive) => {
+    console.log(cardMassive);
+  })
+  .catch((error) => {
+    console.log("Ошибка запроса карточек пользователя", error); // выведем ошибку в консоль
+  });
 
 const pageData = [getUserInformation(), getCards()];
 
-let ownerId;//мой айди 0fd2e9b846773c97126418ae
-Promise.all (pageData) 
-.then (([userInformation, cardMassive]) => {
-  ownerId = userInformation._id; //присваиваю значение
-  cardMassive.forEach((item) => {
-  renderCard(item);
-  }); //вывожу карты с сервера
-  profileName.textContent = userInformation.name;
-  userInfo.textContent = userInformation.about;
-})
-.catch((error) => {
-  console.log(error); // выведем ошибку в консоль
-});
+let ownerId; //мой айди 0fd2e9b846773c97126418ae
+Promise.all(pageData)
+  .then(([userInformation, cardMassive]) => {
+    ownerId = userInformation._id; //присваиваю значение
+    cardMassive.forEach((item) => {
+      renderCard(item);
+    }); //вывожу карты с сервера
+    profileName.textContent = userInformation.name;
+    userInfo.textContent = userInformation.about;
+  })
+  .catch((error) => {
+    console.log(error); // выведем ошибку в консоль
+  });
 // const name = nameInput.value;
 // const about = jobInput.value;
 // console.log(jobInput.value)
-
-
