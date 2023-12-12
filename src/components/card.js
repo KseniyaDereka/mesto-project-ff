@@ -1,3 +1,5 @@
+import { myId } from "../scripts/index.js";
+import { deleteCard } from "./api.js";
 function createCard(item, handleDeleteCard, handleCardLike, handleZoomImage) {
   const cardTemplate = document.querySelector("#card-template").content;
   const card = cardTemplate.querySelector(".card").cloneNode(true);
@@ -11,9 +13,15 @@ function createCard(item, handleDeleteCard, handleCardLike, handleZoomImage) {
   cardImage.alt = item.name;
   cardTitle.textContent = item.name;
   likeCounter.textContent = item.likes.length;
+  const cardId = item._id;
+  //console.log(item.likes.length);
+  //console.log(item._id);
+  if (myId !== item.owner._id) {
+    deleteCardButton.remove();
+  }
 
   deleteCardButton.addEventListener("click", () => {
-    handleDeleteCard(deleteCardButton, ".card");
+    handleDeleteCard(deleteCardButton, ".card", cardId);
   });
 
   likeCardButton.addEventListener("click", () => {
@@ -25,9 +33,14 @@ function createCard(item, handleDeleteCard, handleCardLike, handleZoomImage) {
   return card;
 }
 
-function handleDeleteCard(button, selector) {
+function handleDeleteCard(button, selector, id) {
   const cardParent = button.closest(selector);
   cardParent.remove();
+  deleteCard(id)
+    .then((res) => console.log(res))
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 function handleCardLike(button, selector) {

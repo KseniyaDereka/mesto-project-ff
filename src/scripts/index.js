@@ -81,17 +81,21 @@ function addMyCard(evt) {
   evt.preventDefault();
   const name = placeInput.value;
   const link = linkInput.value;
-  renderCard({ name: name, link: link });
-  addCard(({name, link}))
-  .then((data) => {})
-  .catch((error) => {
-    console.log(error);
-  });
-  closePopup(popupAddCard);
+  addCard({ name, link })
+    .then((data) => {
+      console.log(data);
+      renderCard(data);
+      closePopup(popupAddCard);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   evt.target.reset();
   const submitButtonElement = document.querySelector(".popup__button-create");
   toggleButton(submitButtonElement, false, configForm);
 }
+
+
 
 //функция увеличения изображения по клику
 function handleZoomImage(evt) {
@@ -145,7 +149,7 @@ enableValidation(configForm);
 //получаем данные пользователя с сервера
 getUserInformation()
   .then((userInformation) => {
-    console.log(userInformation);
+    //console.log(userInformation);
   })
   .catch((error) => {
     console.log("Ошибка запроса информации пользователя", error); // выведем ошибку в консоль
@@ -154,7 +158,7 @@ getUserInformation()
 //получаем карточки с сервера
 getCards()
   .then((cardMassive) => {
-    console.log(cardMassive);
+    //console.log(cardMassive);
   })
   .catch((error) => {
     console.log("Ошибка запроса карточек пользователя", error); // выведем ошибку в консоль
@@ -162,10 +166,10 @@ getCards()
 
 const pageData = [getUserInformation(), getCards()];
 
-let ownerId; //мой айди 0fd2e9b846773c97126418ae
+export let myId; //мой айди 0fd2e9b846773c97126418ae
 Promise.all(pageData)
   .then(([userInformation, cardMassive]) => {
-    ownerId = userInformation._id; //присваиваю значение
+    myId = userInformation._id; //присваиваю значение
     cardMassive.forEach((item) => {
       renderCard(item);
     }); //вывожу карты с сервера

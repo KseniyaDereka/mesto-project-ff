@@ -68,3 +68,13 @@ export const addCard = ({name, link}) => {
     .then(checkError)
     .then(handleResponse);
   }
+
+
+  export const deleteCard = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/${cardId}`, {
+        headers: config.headers,
+        method: "DELETE",
+    })
+    .then(checkError)
+    .then(handleResponse);
+  }
