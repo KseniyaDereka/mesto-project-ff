@@ -13,8 +13,6 @@ function createCard(item, handleDeleteCard, handlePutLike, handleDeleteLike, han
   cardTitle.textContent = item.name;
   likeCounter.textContent = item.likes.length;
   const cardId = item._id;
-  //console.log(item.likes.length);
-  //console.log(item._id);
   if (myId !== item.owner._id) {
     deleteCardButton.remove();
   }
@@ -23,8 +21,6 @@ function createCard(item, handleDeleteCard, handlePutLike, handleDeleteLike, han
   });
 
   likeCardButton.addEventListener("click", () => {
-  // console.log(item);
-  // console.log(item.likes.filter(l => l._id == myId));
     if(item.likes.filter((like) => { return like._id == myId}).length){
       console.log("поставила лайк");
       handleDeleteLike(likeCardButton, "card__like-button_is-active", cardId);
@@ -33,11 +29,9 @@ function createCard(item, handleDeleteCard, handlePutLike, handleDeleteLike, han
    console.log("убрала лайк");
    handlePutLike(likeCardButton, "card__like-button_is-active", cardId);
   }
-  
   });
-
   cardImage.addEventListener("click", handleZoomImage);
-
+  
   return card;
 }
 
@@ -50,7 +44,6 @@ function handleDeleteCard(button, selector, id) {
       console.log(error);
     });
 }
-
 function handlePutLike(button, selector, id) {
   putLike(id)
     .then((res) => button.classList.add(selector)

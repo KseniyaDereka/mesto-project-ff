@@ -1,4 +1,9 @@
 import "../pages/index.css";
+import { popupEditProfile, popupAddCard, popupZoomImage, popupAvatarEdit, popupProfileOpenButton,
+  popupAddCardOpenButton, popupProfileCloseButton, popupAddCardCloseButton, popupZoomCloseButton,
+  popupAvatarOpenButton, popupAvatarEditCloseButton, formEditElement, nameInput, jobInput, profileName,
+  userInfo, formAddCardElement, placeInput, linkInput, cardContainer, avatarImage, formEditAvatarElement,
+  avatarLinkInput } from "../utils/constants.js";
 import {
   createCard,
   handleDeleteCard,
@@ -21,51 +26,7 @@ import {
   testAvatarUrl,
 } from "../components/api";
 
-//переменные попапов
-const popupEditProfile = document.querySelector(".popup_type_edit");
-const popupAddCard = document.querySelector(".popup_type_new-card");
-const popupZoomImage = document.querySelector(".popup_type_image");
 
-//переменные кнопок
-const popupProfileOpenButton = document.querySelector(".profile__edit-button");
-const popupAddCardOpenButton = document.querySelector(".profile__add-button");
-const popupProfileCloseButton = document.querySelector(
-  ".button-close_type_edit"
-);
-const popupAddCardCloseButton = document.querySelector(
-  ".button-close_type_add"
-);
-const popupZoomCloseButton = document.querySelector(".button-close_type_zoom");
-
-//переменные для формы редактирования профиля
-const formEditElement = document.forms.editProfile;
-const nameInput = formEditElement.elements.name;
-const jobInput = formEditElement.elements.info;
-//переменные для редактирования профиля
-const profileName = document.querySelector(".profile__nickname");
-const userInfo = document.querySelector(".profile__user-information");
-
-//переменные для формы попапа добавления карточек
-const formAddCardElement = document.forms.newCard;
-const placeInput = formAddCardElement.elements.cardTitle;
-const linkInput = formAddCardElement.elements.link;
-
-//переменные для попапа добавления карточек
-const cardContainer = document.querySelector(".places__list");
-
-//переменные для редактирования аватара
-const avatarImage = document.querySelector(".profile__image");
-const popupAvatarOpenButton = document.querySelector(
-  ".profile__avatar-edit-button"
-);
-const popupAvatarEdit = document.querySelector(".popup-update-avatar");
-const popupAvatarEditCloseButton = document.querySelector(
-  ".button-close_type_avatar"
-);
-
-//переменные для формы редактирования аватара
-const formEditAvatarElement = document.forms.updateAvatar;
-const avatarLinkInput = formEditAvatarElement.elements.link;
 
 //функция для попапа редактирования профиля
 function handleEditFormSubmit(evt) {
@@ -76,16 +37,17 @@ function handleEditFormSubmit(evt) {
   profileName.textContent = name;
   userInfo.textContent = job;
   renderLoading(true, submitButtonElement);
-  editUserInformation({ name, job }) //вызываю метод/отдаю на сервер данные
+  editUserInformation({ name, job })
     .then((data) => {})
     .catch((error) => {
-      console.log(error); // выведем ошибку в консоль
+      console.log(error);
     })
     .finally(() => {
       renderLoading(false, submitButtonElement);
     });
   closePopup(popupEditProfile);
 }
+
 
 //функция для попапа обновления аватара
 function handleEditAvatarSubmit(evt) {
@@ -98,13 +60,13 @@ function handleEditAvatarSubmit(evt) {
       console.log(data);
     })
     .catch((error) => {
-      console.log(error); // выведем ошибку в консоль
+      console.log(error);
     });
   avatarImage.src = avatar;
   editAvatar({ avatar })
     .then((data) => {})
     .catch((error) => {
-      console.log(error); // выведем ошибку в консоль
+      console.log(error);
     })
     .finally(() => {
       renderLoading(false, submitButtonElement);
@@ -160,12 +122,65 @@ function handleZoomImage(evt) {
   imageCaption.textContent = imageZoomed.alt;
 }
 
+//функция заполнения данными профиля из инпутов
 function setUserInfo() {
   const name = profileName.textContent;
   const job = userInfo.textContent;
   nameInput.value = name;
   jobInput.value = job;
 }
+
+//включаем валидацию
+enableValidation(configForm);
+
+
+// API
+//получаем данные пользователя с сервера
+getUserInformation()
+  .then((userInformation) => {
+  })
+  .catch((error) => {
+    console.log("Ошибка запроса информации пользователя", error); // выведем ошибку в консоль
+  });
+
+//получаем карточки с сервера
+getCards()
+  .then((cardMassive) => {
+  })
+  .catch((error) => {
+    console.log("Ошибка запроса карточек пользователя", error); // выведем ошибку в консоль
+  });
+
+const pageData = [getUserInformation(), getCards()];
+
+export let myId;
+ //мой айди 0fd2e9b846773c97126418ae
+
+Promise.all(pageData)
+  .then(([userInformation, cardMassive]) => {
+    myId = userInformation._id;
+    cardMassive.forEach((item) => {
+      renderCard(item);
+    });
+    profileName.textContent = userInformation.name;
+    userInfo.textContent = userInformation.about;
+    avatarImage.src = userInformation.avatar;
+    console.log(userInformation);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+  //функция смены надписи кнопки при сохранении
+function renderLoading(isLoading, button) { 
+  if (isLoading) {
+    button.textContent = "Сохранение...";
+  } else {
+    button.textContent = "Сохранить";
+  }
+}
+
+//слушатели-обработчики
 //слушатели для попапа редактирования
 popupProfileOpenButton.addEventListener("click", () => {
   openPopup(popupEditProfile);
@@ -208,49 +223,3 @@ popupAvatarEditCloseButton.addEventListener("click", () => {
 });
 
 formEditAvatarElement.addEventListener("submit", handleEditAvatarSubmit);
-
-enableValidation(configForm);
-
-//получаем данные пользователя с сервера
-getUserInformation()
-  .then((userInformation) => {
-    //console.log(userInformation);
-  })
-  .catch((error) => {
-    console.log("Ошибка запроса информации пользователя", error); // выведем ошибку в консоль
-  });
-
-//получаем карточки с сервера
-getCards()
-  .then((cardMassive) => {
-    console.log(cardMassive);
-  })
-  .catch((error) => {
-    console.log("Ошибка запроса карточек пользователя", error); // выведем ошибку в консоль
-  });
-
-const pageData = [getUserInformation(), getCards()];
-
-export let myId; //мой айди 0fd2e9b846773c97126418ae
-Promise.all(pageData)
-  .then(([userInformation, cardMassive]) => {
-    myId = userInformation._id; //присваиваю значение
-    cardMassive.forEach((item) => {
-      renderCard(item);
-    }); //вывожу карты с сервера
-    profileName.textContent = userInformation.name;
-    userInfo.textContent = userInformation.about;
-    avatarImage.src = userInformation.avatar;
-    console.log(userInformation);
-  })
-  .catch((error) => {
-    console.log(error); // выведем ошибку в консоль
-  });
-
-function renderLoading(isLoading, button) { 
-  if (isLoading) {
-    button.textContent = "Сохранение...";
-  } else {
-    button.textContent = "Сохранить";
-  }
-}
