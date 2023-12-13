@@ -35,7 +35,7 @@ const avatarImage = document.querySelector(".profile__image");
 
 //переменные для формы редактирования аватара
 const formEditAvatarElement = document.forms.updateAvatar;
-const avatarLinkInput = formEditAvatarElement.elements.link;
+const avatarLinkInput = formEditAvatarElement.elements.url;
 
 
 export { popupEditProfile, popupAddCard, popupZoomImage, popupAvatarEdit, popupProfileOpenButton,

@@ -90,7 +90,7 @@ function renderCard(item) {
     handleDeleteLike,
     handleZoomImage
   );
-  cardContainer.append(newCard);
+  cardContainer.prepend(newCard);
 }
 
 //добавляем свою карточку
@@ -165,6 +165,7 @@ export let myId;
 Promise.all(pageData)
   .then(([userInformation, cardMassive]) => {
     myId = userInformation._id;
+    cardMassive.reverse();
     cardMassive.forEach((item) => {
       renderCard(item);
     });
