@@ -199,6 +199,8 @@ popupZoomCloseButton.addEventListener("click", () => {
 //слушатели для попапа аватара
 popupAvatarOpenButton.addEventListener("click", () => {
   openPopup(popupAvatarEdit);
+  clearValidation(formEditAvatarElement, configForm);
+
 });
 
 popupAvatarEditCloseButton.addEventListener("click", () => {
