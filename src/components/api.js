@@ -6,9 +6,7 @@ const config = {
     }
   }
 
-
-  //getUserInformation
-  //Токен: 7b51863c-93c2-411f-a61e-7d6b9806910b
+//Токен: 7b51863c-93c2-411f-a61e-7d6b9806910b
 //Идентификатор группы: wff-cohort-2
 
 const checkError = (response) => {
@@ -114,6 +112,8 @@ export const addCard = ({name, link}) => {
       method: "HEAD",
     })
     .then(checkError)
-    .then()
+    .then((res) => {return res.headers.get("content-type")}
+    )
+    
   }
    

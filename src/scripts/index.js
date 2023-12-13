@@ -95,20 +95,26 @@ function handleEditAvatarSubmit(evt) {
   renderLoading(true, submitButtonElement);
   testAvatarUrl({ avatar })
     .then((data) => {
-      console.log(data);
+      if(data == 'image/jpeg'|| data == 'image/png' || data == 'image/gif') {
+        console.log(data + " - правильный формат");
+      } else {
+       return Promise.reject("Ошибка");
+      };
     })
+    .then(() => { avatarImage.src = avatar; 
+      return editAvatar({ avatar }); })
+    .then((data) => { console.log(data) })
     .catch((error) => {
-      console.log(error); // выведем ошибку в консоль
-    });
-  avatarImage.src = avatar;
-  editAvatar({ avatar })
-    .then((data) => {})
-    .catch((error) => {
-      console.log(error); // выведем ошибку в консоль
+      if (error == "Ошибка") {
+        console.log("Некорректный формат изображения, используйте jpg, png или gif"); // выведем ошибку в консоль
+      } else {
+        console.log(error);
+      }
     })
     .finally(() => {
       renderLoading(false, submitButtonElement);
     });
+  
 
   closePopup(popupAvatarEdit);
 }
