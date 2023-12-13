@@ -78,3 +78,33 @@ export const addCard = ({name, link}) => {
     .then(checkError)
     .then(handleResponse);
   }
+
+  export const putLike = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+        headers: config.headers,
+        method: "PUT",
+    })
+    .then(checkError)
+    .then(handleResponse);
+  }
+
+  export const deleteLike = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+        headers: config.headers,
+        method: "DELETE",
+    })
+    .then(checkError)
+    .then(handleResponse);
+  }
+
+  const editAvatar = ({avatar}) => { //отредактировать информацию // в name и about попали мои отредактированные данные
+    return fetch(`${config.baseUrl}/users/me`, {
+      headers: config.headers,
+      method: "PATCH",
+      body: JSON.stringify({   //берет мой обьект  превращает в строку
+        avatar: avatar.link,
+      }),
+    })
+    .then(checkError)
+    .then(handleResponse)
+  }

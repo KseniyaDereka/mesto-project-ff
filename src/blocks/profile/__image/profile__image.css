@@ -6,10 +6,10 @@
   border-radius: 50%;
   background-size: cover;
   background-position: center;
-  margin: 0 29px 0 0;
+  margin: 0;
 }
 
-@media screen and (max-width: 740px) {
+/* @media screen and (max-width: 740px) {
   .profile__image {
     margin: 0 10px 0 0;
   }
@@ -19,4 +19,4 @@
   .profile__image {
     margin-right: 0;
   }
-}
+} */

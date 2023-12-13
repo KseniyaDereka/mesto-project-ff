@@ -2,7 +2,8 @@ import "../pages/index.css";
 import {
   createCard,
   handleDeleteCard,
-  handleCardLike,
+  handlePutLike,
+  handleDeleteLike,
 } from "../components/card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import {
@@ -50,6 +51,13 @@ const linkInput = formAddCardElement.elements.link;
 //переменные для попапа добавления карточек
 const cardContainer = document.querySelector(".places__list");
 
+//переменные для редактирования аватара
+const popupAvatarOpenButton = document.querySelector(".profile__avatar-edit-button");
+const popupAvatarEdit = document.querySelector(".popup-update-avatar");
+const popupAvatarEditCloseButton = document.querySelector(
+  ".button-close_type_avatar"
+);
+
 //функции для попапа редактирования профиля
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
@@ -70,7 +78,8 @@ function renderCard(item) {
   const newCard = createCard(
     item,
     handleDeleteCard,
-    handleCardLike,
+    handlePutLike,
+    handleDeleteLike,
     handleZoomImage
   );
   cardContainer.append(newCard);
@@ -144,6 +153,15 @@ popupZoomCloseButton.addEventListener("click", () => {
   closePopup(popupZoomImage);
 });
 
+
+popupAvatarOpenButton.addEventListener("click", () => {
+  openPopup(popupAvatarEdit);
+});
+
+popupAvatarEditCloseButton.addEventListener("click", () => {
+  closePopup(popupAvatarEdit);
+});
+
 enableValidation(configForm);
 
 //получаем данные пользователя с сервера
@@ -158,7 +176,7 @@ getUserInformation()
 //получаем карточки с сервера
 getCards()
   .then((cardMassive) => {
-    //console.log(cardMassive);
+    console.log(cardMassive);
   })
   .catch((error) => {
     console.log("Ошибка запроса карточек пользователя", error); // выведем ошибку в консоль

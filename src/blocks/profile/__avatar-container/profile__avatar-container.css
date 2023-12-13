@@ -1,0 +1,15 @@
+.profile__avatar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center
+ }
+  
+ .profile__avatar-container:hover .profile__avatar-edit-button {
+     transition: 1s opacity;
+     opacity: 1;
+ }
+ 
+ .profile__avatar-container:hover .profile__image {
+     opacity: 0.2;
+     transition: 0.5s opacity;
+ }

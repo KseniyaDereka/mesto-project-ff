@@ -20,11 +20,17 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img
+          <div class="profile__avatar-container">
+            <img
             class="profile__image"
             src="<%=require('./images/avatar.jpg')%>"
             alt="изображение профиля"
           />
+          <button
+              class="profile__avatar-edit-button"
+              type="button"
+            ></button>
+          </div>
           <div class="profile__info">
             <h1 class="profile__nickname">Жак-Ив Кусто</h1>
             <button class="profile__edit-button" type="button"></button>
@@ -122,6 +128,33 @@
         </div>
       </div>
     </div>
+    <div class="popup-update-avatar popup">
+      <div class="popup__content popup__content_update-avatar">
+        <button
+          aria-label="Закрыть"
+          class="popup__close button-close_type_avatar button"
+        ></button>
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form
+          name="updateAvatar"
+          class="popup__form popup__form_update"
+          novalidate
+        >
+          <input
+            required
+            type="url"
+            name="link"
+            placeholder="Ссылка на картинку"
+            class="popup__input popup__input_type_link"
+          />
+          <span id="link-error" class="error"></span>
+          <button type="submit" class="popup__button-create popup__button">
+            Сохранить
+          </button>
+        </form>
+      </div>
+    </div>
+
     <script type="module" src="./scripts/index.js"></script>
 
     <template id="card-template">
