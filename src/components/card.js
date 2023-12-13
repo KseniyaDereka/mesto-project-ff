@@ -13,6 +13,11 @@ function createCard(item, handleDeleteCard, handlePutLike, handleDeleteLike, han
   cardTitle.textContent = item.name;
   likeCounter.textContent = item.likes.length;
   const cardId = item._id;
+  if(isLikedByMe(item, myId)){
+    likeCardButton.classList.add("card__like-button_is-active");
+  } else {
+    likeCardButton.classList.remove("card__like-button_is-active");
+  }
   if (myId !== item.owner._id) {
     deleteCardButton.remove();
   }
@@ -21,13 +26,11 @@ function createCard(item, handleDeleteCard, handlePutLike, handleDeleteLike, han
   });
 
   likeCardButton.addEventListener("click", () => {
-    if(item.likes.filter((like) => { return like._id == myId}).length){
-      console.log("поставила лайк");
-      handleDeleteLike(likeCardButton, "card__like-button_is-active", cardId);
+    if(isLikedByMe(item, myId)){
+      handleDeleteLike(likeCardButton, "card__like-button_is-active", cardId, likeCounter);
     }
     else {
-   console.log("убрала лайк");
-   handlePutLike(likeCardButton, "card__like-button_is-active", cardId);
+   handlePutLike(likeCardButton, "card__like-button_is-active", cardId, likeCounter);
   }
   });
   cardImage.addEventListener("click", handleZoomImage);
@@ -35,8 +38,8 @@ function createCard(item, handleDeleteCard, handlePutLike, handleDeleteLike, han
   return card;
 }
 
-function handleDeleteCard(button, selector, id) {
-  const cardParent = button.closest(selector);
+function handleDeleteCard(button, classname, id) {
+  const cardParent = button.closest(classname);
   cardParent.remove();
   deleteCard(id)
     .then((res) => console.log(res))
@@ -44,19 +47,28 @@ function handleDeleteCard(button, selector, id) {
       console.log(error);
     });
 }
-function handlePutLike(button, selector, id) {
+
+function isLikedByMe(cardData, ownerId){
+  if(cardData.likes.filter((like) => { return like._id == ownerId}).length){
+    return true;
+  } 
+}
+
+function handlePutLike(button, classname, id, counter) {
   putLike(id)
-    .then((res) => button.classList.add(selector)
-    )
+    .then((cardData) => { button.classList.add(classname);
+      counter.textContent = cardData.likes.length;
+})
     .catch((error) => {
       console.log(error);
     });    
 }
 
-function handleDeleteLike(button, selector, id) {
+function handleDeleteLike(button, classname, id, counter) {
   deleteLike(id)
-    .then((res) => { button.classList.remove(selector) }
-    )
+    .then((cardData) => { button.classList.remove(classname);
+      counter.textContent = cardData.likes.length; 
+    })
     .catch((error) => {
       console.log(error);
     });    
