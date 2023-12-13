@@ -17,6 +17,8 @@ import {
   getCards,
   editUserInformation,
   addCard,
+  editAvatar,
+  testAvatarUrl,
 } from "../components/api";
 
 //переменные попапов
@@ -52,13 +54,18 @@ const linkInput = formAddCardElement.elements.link;
 const cardContainer = document.querySelector(".places__list");
 
 //переменные для редактирования аватара
+const avatarImage = document.querySelector(".profile__image");
 const popupAvatarOpenButton = document.querySelector(".profile__avatar-edit-button");
 const popupAvatarEdit = document.querySelector(".popup-update-avatar");
 const popupAvatarEditCloseButton = document.querySelector(
   ".button-close_type_avatar"
 );
 
-//функции для попапа редактирования профиля
+//переменные для формы редактирования аватара
+const formEditAvatarElement = document.forms.updateAvatar;
+const avatarLinkInput = formEditAvatarElement.elements.link;
+
+//функция для попапа редактирования профиля
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
   const name = nameInput.value;
@@ -71,6 +78,25 @@ function handleEditFormSubmit(evt) {
       console.log(error); // выведем ошибку в консоль
     });
   closePopup(popupEditProfile);
+}
+
+
+//функция для попапа обновления аватара
+function handleEditAvatarSubmit(evt){
+  evt.preventDefault();
+  const avatar = avatarLinkInput.value;
+  testAvatarUrl({ avatar })
+  .then((data) => {console.log(data)})
+  .catch((error) => {
+    console.log(error); // выведем ошибку в консоль
+  });
+  avatarImage.src = avatar;
+  editAvatar({ avatar })
+  .then((data) => {})
+  .catch((error) => {
+    console.log(error); // выведем ошибку в консоль
+  });
+closePopup(popupAvatarEdit);
 }
 
 //функция рендера карточки на страницу
@@ -122,6 +148,7 @@ function setUserInfo() {
   const job = userInfo.textContent;
   nameInput.value = name;
   jobInput.value = job;
+
 }
 //слушатели для попапа редактирования
 popupProfileOpenButton.addEventListener("click", () => {
@@ -153,7 +180,7 @@ popupZoomCloseButton.addEventListener("click", () => {
   closePopup(popupZoomImage);
 });
 
-
+//слушатели для попапа аватара
 popupAvatarOpenButton.addEventListener("click", () => {
   openPopup(popupAvatarEdit);
 });
@@ -161,6 +188,9 @@ popupAvatarOpenButton.addEventListener("click", () => {
 popupAvatarEditCloseButton.addEventListener("click", () => {
   closePopup(popupAvatarEdit);
 });
+
+formEditAvatarElement.addEventListener("submit", handleEditAvatarSubmit);
+
 
 enableValidation(configForm);
 
@@ -193,10 +223,10 @@ Promise.all(pageData)
     }); //вывожу карты с сервера
     profileName.textContent = userInformation.name;
     userInfo.textContent = userInformation.about;
+    avatarImage.src = userInformation.avatar;
+    console.log(userInformation);
   })
   .catch((error) => {
     console.log(error); // выведем ошибку в консоль
   });
-// const name = nameInput.value;
-// const about = jobInput.value;
-// console.log(jobInput.value)
+

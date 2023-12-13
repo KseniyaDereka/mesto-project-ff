@@ -97,14 +97,23 @@ export const addCard = ({name, link}) => {
     .then(handleResponse);
   }
 
-  const editAvatar = ({avatar}) => { //отредактировать информацию // в name и about попали мои отредактированные данные
-    return fetch(`${config.baseUrl}/users/me`, {
+  export const editAvatar = ({avatar}) => { //отредактировать информацию // в name и about попали мои отредактированные данные
+    return fetch(`${config.baseUrl}/users/me/avatar`, {
       headers: config.headers,
       method: "PATCH",
       body: JSON.stringify({   //берет мой обьект  превращает в строку
-        avatar: avatar.link,
+        avatar: avatar,
       }),
     })
     .then(checkError)
     .then(handleResponse)
   }
+
+   export const testAvatarUrl = ({avatar}) =>{
+    return fetch(avatar, {
+      method: "HEAD",
+    })
+    .then(checkError)
+    .then()
+  }
+   
