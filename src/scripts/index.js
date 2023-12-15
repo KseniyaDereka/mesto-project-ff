@@ -7,8 +7,6 @@ import { popupEditProfile, popupAddCard, popupZoomImage, popupAvatarEdit, popupP
 import {
   createCard,
   handleDeleteCard,
-  handlePutLike,
-  handleDeleteLike,
 } from "../components/card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import {
@@ -63,7 +61,7 @@ function handleEditAvatarSubmit(evt) {
     })
     .then(() => { avatarImage.src = avatar; 
       return editAvatar({ avatar }); })
-    .then((data) => { console.log(data) })
+    .then((data) => {})
     .catch((error) => {
       if (error == "Ошибка") {
         console.log("Некорректный формат изображения, используйте jpg, png или gif"); // выведем ошибку в консоль
@@ -84,9 +82,8 @@ function renderCard(item) {
   const newCard = createCard(
     item,
     handleDeleteCard,
-    handlePutLike,
-    handleDeleteLike,
-    handleZoomImage
+    handleZoomImage,
+    myId
   );
   cardContainer.prepend(newCard);
 }

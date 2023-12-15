@@ -11,15 +11,15 @@ const config = {
 
 const checkError = (response) => {
     if (response.ok) {
-        return response;
+        return response.json();
       } else { // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${response.status} ${response.statusText}`);
       }
 }
 
-const handleResponse = (response) => {
-    return response.json();
-  };
+// const handleResponse = (response) => {
+//     return response.json();
+//   };
 
 //запрос информации пользователя
 export const getUserInformation = () => {
@@ -27,7 +27,7 @@ export const getUserInformation = () => {
         headers: config.headers,
         method: "GET",
       }).then(checkError)
-      .then(handleResponse)
+      // .then(handleResponse)
 }
 
 //запрос карточек
@@ -36,7 +36,7 @@ export const getCards = () => {
       headers: config.headers,
       method: "GET",
     }).then(checkError)
-    .then(handleResponse)
+    // .then(handleResponse)
   }
 
 //редактирование информации пользователя
@@ -50,7 +50,7 @@ export const getCards = () => {
       }),
     })
     .then(checkError)
-    .then(handleResponse)
+    // .then(handleResponse)
   }
 
 
@@ -64,7 +64,7 @@ export const addCard = ({name, link}) => {
       }),
     })
     .then(checkError)
-    .then(handleResponse);
+    // .then(handleResponse);
   }
 
 
@@ -74,7 +74,7 @@ export const addCard = ({name, link}) => {
         method: "DELETE",
     })
     .then(checkError)
-    .then(handleResponse);
+    // .then(handleResponse);
   }
 
   export const putLike = (cardId) => {
@@ -83,7 +83,7 @@ export const addCard = ({name, link}) => {
         method: "PUT",
     })
     .then(checkError)
-    .then(handleResponse);
+    // .then(handleResponse);
   }
 
   export const deleteLike = (cardId) => {
@@ -92,7 +92,7 @@ export const addCard = ({name, link}) => {
         method: "DELETE",
     })
     .then(checkError)
-    .then(handleResponse);
+    // .then(handleResponse);
   }
 
   export const editAvatar = ({avatar}) => { //отредактировать информацию // в name и about попали мои отредактированные данные
@@ -104,7 +104,7 @@ export const addCard = ({name, link}) => {
       }),
     })
     .then(checkError)
-    .then(handleResponse)
+    // .then(handleResponse)
   }
 
    export const testAvatarUrl = ({avatar}) =>{
