@@ -102,7 +102,6 @@ function addMyCard(evt) {
   renderLoading(true, submitButtonElement);
   addCard({ name, link })
     .then((data) => {
-      console.log(data);
       renderCard(data);
       closePopup(popupAddCard);
     })
@@ -141,22 +140,6 @@ enableValidation(configForm);
 
 
 // API
-//получаем данные пользователя с сервера
-getUserInformation()
-  .then((userInformation) => {
-  })
-  .catch((error) => {
-    console.log("Ошибка запроса информации пользователя", error); // выведем ошибку в консоль
-  });
-
-//получаем карточки с сервера
-getCards()
-  .then((cardMassive) => {
-  })
-  .catch((error) => {
-    console.log("Ошибка запроса карточек пользователя", error); // выведем ошибку в консоль
-  });
-
 const pageData = [getUserInformation(), getCards()];
 
 export let myId;
@@ -165,8 +148,7 @@ export let myId;
 Promise.all(pageData)
   .then(([userInformation, cardMassive]) => {
     myId = userInformation._id;
-    cardMassive.reverse();
-    cardMassive.forEach((item) => {
+    cardMassive.reverse().forEach((item) => {
       renderCard(item);
     });
     profileName.textContent = userInformation.name;
@@ -180,11 +162,7 @@ Promise.all(pageData)
 
   //функция смены надписи кнопки при сохранении
 function renderLoading(isLoading, button) { 
-  if (isLoading) {
-    button.textContent = "Сохранение...";
-  } else {
-    button.textContent = "Сохранить";
-  }
+  button.textContent = isLoading ? "Сохранение..." : "Сохранить";
 }
 
 //слушатели-обработчики
