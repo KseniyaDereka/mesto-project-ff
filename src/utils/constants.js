@@ -37,9 +37,18 @@ const avatarImage = document.querySelector(".profile__image");
 const formEditAvatarElement = document.forms.updateAvatar;
 const avatarLinkInput = formEditAvatarElement.elements.url;
 
+const configForm = {
+    formSelector: ".popup__form",
+    inputSelector: ".popup__input",
+    submitButtonSelector: ".popup__button",
+    inputErrorClass: "popup__input_invalid",
+    buttonInactiveClass: "popup__button_disabled",
+    errorClass: ".error",
+  };
+
 
 export { popupEditProfile, popupAddCard, popupZoomImage, popupAvatarEdit, popupProfileOpenButton,
 popupAddCardOpenButton, popupProfileCloseButton, popupAddCardCloseButton, popupZoomCloseButton,
 popupAvatarOpenButton, popupAvatarEditCloseButton, formEditElement, nameInput, jobInput, profileName,
 userInfo, formAddCardElement, placeInput, linkInput, cardContainer, avatarImage, formEditAvatarElement,
-avatarLinkInput };
+avatarLinkInput, configForm };

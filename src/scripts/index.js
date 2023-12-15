@@ -3,7 +3,7 @@ import { popupEditProfile, popupAddCard, popupZoomImage, popupAvatarEdit, popupP
   popupAddCardOpenButton, popupProfileCloseButton, popupAddCardCloseButton, popupZoomCloseButton,
   popupAvatarOpenButton, popupAvatarEditCloseButton, formEditElement, nameInput, jobInput, profileName,
   userInfo, formAddCardElement, placeInput, linkInput, cardContainer, avatarImage, formEditAvatarElement,
-  avatarLinkInput } from "../utils/constants.js";
+  avatarLinkInput, configForm } from "../utils/constants.js";
 import {
   createCard,
   handleDeleteCard,
@@ -12,10 +12,8 @@ import {
 } from "../components/card.js";
 import { openPopup, closePopup } from "../components/modal.js";
 import {
-  configForm,
   enableValidation,
-  clearValidation,
-  toggleButton,
+  clearValidation
 } from "../components/validation";
 import {
   getUserInformation,
@@ -112,8 +110,6 @@ function addMyCard(evt) {
       renderLoading(false, submitButtonElement);
     });
   evt.target.reset();
-
-  toggleButton(submitButtonElement, false, configForm);
 }
 
 //функция увеличения изображения по клику
@@ -154,7 +150,6 @@ Promise.all(pageData)
     profileName.textContent = userInformation.name;
     userInfo.textContent = userInformation.about;
     avatarImage.src = userInformation.avatar;
-    console.log(userInformation);
   })
   .catch((error) => {
     console.log(error);

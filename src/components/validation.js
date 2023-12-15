@@ -1,12 +1,3 @@
-export const configForm = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inputErrorClass: "popup__input_invalid",
-  buttonInactiveClass: "popup__button_disabled",
-  errorClass: ".error",
-};
-
 //покажи ошибку
 function showError(inputElement, errorElement, config) {
   inputElement.classList.add(config.inputErrorClass);
@@ -21,37 +12,37 @@ function hideError(inputElement, errorElement, config) {
 
 //проверим валидность
 function checkInputValidity(inputElement, formElement, config) {
-  const isInputValid = inputElement.validity.valid;
   const isInputMatchPattern = inputElement.validity.patternMismatch;
   const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
-  if (isInputValid) {
-    hideError(inputElement, errorElement, config);
-  } else {
-    showError(inputElement, errorElement, config);
-  }
   if (isInputMatchPattern) {
     inputElement.setCustomValidity(inputElement.dataset.errorMessage);
   } else {
     inputElement.setCustomValidity("");
   }
+  const isInputValid = inputElement.validity.valid;
+  if (isInputValid) {
+    hideError(inputElement, errorElement, config);
+  } else {
+    showError(inputElement, errorElement, config);
+  }
 }
 
-function buttonUnblocked(buttonElement, config) {
+function makeButtonUnblocked(buttonElement, config) {
   buttonElement.disabled = false;
   buttonElement.classList.remove(config.buttonInactiveClass);
 }
 
-function buttonBlocked(buttonElement, config) {
+function makeButtonBlocked(buttonElement, config) {
   buttonElement.disabled = true;
   buttonElement.classList.add(config.buttonInactiveClass);
 }
 
 //блокировка кнопки
-export function toggleButton(buttonElement, isActive, config) {
+function toggleButton(buttonElement, isActive, config) {
   if (isActive) {
-    buttonUnblocked(buttonElement, config);
+    makeButtonUnblocked(buttonElement, config);
   } else {
-    buttonBlocked(buttonElement, config);
+    makeButtonBlocked(buttonElement, config);
   }
 }
 
@@ -82,14 +73,18 @@ export function enableValidation(config) {
   });
 }
 
-//очищаем поля ошибок
+//очищаем поля ошибок и  блокируем кнопку
 export function clearValidation(formElement, config) {
-  const errors = formElement.querySelectorAll(config.errorClass);
-  errors.forEach((error) => {
-    error.textContent = "";
-  });
   const inputList = formElement.querySelectorAll(config.inputSelector);
+  const submitButtonElement = formElement.querySelector(
+    config.submitButtonSelector
+  );
   inputList.forEach((inputElement) => {
-    inputElement.classList.remove(config.inputErrorClass);
+    const errorElement = formElement.querySelector(
+      `#${inputElement.name}-error`
+    );
+    hideError(inputElement, errorElement, config);
   });
+  toggleButton(submitButtonElement, false, config);
 }
+
