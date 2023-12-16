@@ -51,11 +51,11 @@ function createCard(
 function handleDeleteCard(button, classname, id) {
   const cardParent = button.closest(classname);
   deleteCard(id)
-    .then((res) => console.log(res))
+    .then((res) => cardParent.remove())
     .catch((error) => {
       console.log(error);
     });
-  cardParent.remove();
+  
 }
 
 function isLikedByMe(cardData, ownerId) {
