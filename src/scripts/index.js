@@ -3,7 +3,7 @@ import { popupEditProfile, popupAddCard, popupZoomImage, popupAvatarEdit, popupP
   popupAddCardOpenButton, popupProfileCloseButton, popupAddCardCloseButton, popupZoomCloseButton,
   popupAvatarOpenButton, popupAvatarEditCloseButton, formEditElement, nameInput, jobInput, profileName,
   userInfo, formAddCardElement, placeInput, linkInput, cardContainer, avatarImage, formEditAvatarElement,
-  avatarLinkInput, configForm } from "../utils/constants.js";
+  avatarLinkInput, configForm, popupConfirmDeleteCloseButton, popupConfirmDelete } from "../utils/constants.js";
 import {
   createCard,
   handleDeleteCard,
@@ -200,3 +200,7 @@ popupAvatarEditCloseButton.addEventListener("click", () => {
 });
 
 formEditAvatarElement.addEventListener("submit", handleEditAvatarSubmit);
+
+popupConfirmDeleteCloseButton.addEventListener("click", () => {
+  closePopup(popupConfirmDelete);
+});

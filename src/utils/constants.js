@@ -3,6 +3,7 @@ const popupEditProfile = document.querySelector(".popup_type_edit");
 const popupAddCard = document.querySelector(".popup_type_new-card");
 const popupZoomImage = document.querySelector(".popup_type_image");
 const popupAvatarEdit = document.querySelector(".popup-update-avatar");
+const popupConfirmDelete = document.querySelector(".popup-confirm-delete");
 
 //переменные кнопок
 const popupProfileOpenButton = document.querySelector(".profile__edit-button");
@@ -12,7 +13,9 @@ const popupAddCardCloseButton = document.querySelector(".button-close_type_add")
 const popupZoomCloseButton = document.querySelector(".button-close_type_zoom");
 const popupAvatarOpenButton = document.querySelector(".profile__avatar-edit-button");
 const popupAvatarEditCloseButton = document.querySelector(".button-close_type_avatar");
-
+// const popupConfirmDeleteOpenButton = document.querySelector(".profile__edit-button");
+const popupConfirmDeleteCloseButton = document.querySelector(".button-close_type_confirm");
+const popupConfirmDeleteButton = document.querySelector(".popup__button-confirm");
 //переменные для формы редактирования профиля
 const formEditElement = document.forms.editProfile;
 const nameInput = formEditElement.elements.name;
@@ -51,4 +54,4 @@ export { popupEditProfile, popupAddCard, popupZoomImage, popupAvatarEdit, popupP
 popupAddCardOpenButton, popupProfileCloseButton, popupAddCardCloseButton, popupZoomCloseButton,
 popupAvatarOpenButton, popupAvatarEditCloseButton, formEditElement, nameInput, jobInput, profileName,
 userInfo, formAddCardElement, placeInput, linkInput, cardContainer, avatarImage, formEditAvatarElement,
-avatarLinkInput, configForm };
+avatarLinkInput, configForm, popupConfirmDelete, popupConfirmDeleteCloseButton, popupConfirmDeleteButton };

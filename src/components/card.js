@@ -1,10 +1,10 @@
 import { deleteCard, putLike, deleteLike } from "./api.js";
-function createCard(
-  item,
-  handleDeleteCard,
-  handleZoomImage,
-  myId
-) {
+import { openPopup, closePopup } from "./modal.js";
+import {
+  popupConfirmDelete,
+  popupConfirmDeleteButton,
+} from "../utils/constants.js";
+function createCard(item, handleDeleteCard, handleZoomImage, myId) {
   const cardTemplate = document.querySelector("#card-template").content;
   const card = cardTemplate.querySelector(".card").cloneNode(true);
   const cardImage = card.querySelector(".card__image");
@@ -24,6 +24,9 @@ function createCard(
     deleteCardButton.remove();
   } else {
     deleteCardButton.addEventListener("click", () => {
+      handleDeleteCard(deleteCardButton, ".card", cardId);
+    });
+    deleteCardButton.removeEventListener("click", () => {
       handleDeleteCard(deleteCardButton, ".card", cardId);
     });
   }
@@ -49,14 +52,21 @@ function createCard(
 }
 
 function handleDeleteCard(button, classname, id) {
-  const cardParent = button.closest(classname);
-  deleteCard(id)
-    .then((res) => cardParent.remove())
-    .catch((error) => {
-      console.log(error);
-    });
-  
+  openPopup(popupConfirmDelete);
+  popupConfirmDeleteButton.addEventListener("click", () => {
+    const cardParent = button.closest(classname);
+    deleteCard(id)
+      .then((res) => {
+        cardParent.remove();
+        closePopup(popupConfirmDelete);
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    }, { once: true });
+
 }
+
 
 function isLikedByMe(cardData, ownerId) {
   return cardData.likes.some((like) => {
